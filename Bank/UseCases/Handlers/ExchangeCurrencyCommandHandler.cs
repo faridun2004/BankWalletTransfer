@@ -39,7 +39,7 @@ namespace Bank.UseCases.Handlers
             if (request.CurrencyFrom == WalletStatus.TJS && senderWallet.TjsBalance < request.Amount)
                 throw new Exception("");
             if (request.CurrencyFrom == request.CurrencyTo)
-            {
+            {   
                 if (request.CurrencyFrom == WalletStatus.USD)
                 {
                     senderWallet.UsdBalance -= request.Amount;

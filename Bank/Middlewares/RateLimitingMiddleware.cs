@@ -28,13 +28,10 @@ namespace Bank.Middlewares
             var currentTime = DateTime.UtcNow;
             var requestQueue = RequestTimes.GetOrAdd(ipAddress, new ConcurrentQueue<DateTime>());
 
-            // Удаление старых запросов, которые вышли за пределы временного окна
             while (requestQueue.TryPeek(out var oldestTime) && currentTime - oldestTime > TimeWindow)
             {
                 requestQueue.TryDequeue(out _);
             }
-
-            // Проверка количества запросов в пределах временного окна
             if (requestQueue.Count >= MaxRequests)
             {
                 context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
@@ -42,7 +39,6 @@ namespace Bank.Middlewares
                 return;
             }
 
-            // Добавление текущего запроса в очередь
             requestQueue.Enqueue(currentTime);
 
             await _next(context);

@@ -9,6 +9,7 @@ namespace Bank.UseCases.Handlers
     public class CreateAccountCommandHandler: IRequestHandler<CreateAccountCommand, Guid>
     {
         private readonly BankDbContext _context;
+
         public CreateAccountCommandHandler(BankDbContext context)
         {
             _context = context;
